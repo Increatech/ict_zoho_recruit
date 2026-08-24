@@ -92,14 +92,14 @@
   {
    "fieldname": "contact_email",
    "fieldtype": "Data",
-   "label": "Zoho Job Publish Person Email"
+   "label": "Job Publish Contact Email"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-08-24 11:47:14.831250",
+ "modified": "2026-08-24 16:16:30.253907",
  "modified_by": "Administrator",
  "module": "Ict Zoho Recruit",
  "name": "Zoho Recruit Settings",

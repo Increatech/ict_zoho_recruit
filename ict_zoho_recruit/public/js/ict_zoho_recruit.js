@@ -15,7 +15,7 @@ frappe.listview_settings["Zoho Job Openings"] = {
             }
 
             frappe.call({
-                method: "ict_zoho_recruit.api.zoho_recruit.sync_zoho_recruit",
+                method: "ict_zoho_recruit.api.ZohoRecruit.sync_zoho_recruit",
                 args: { document_ids },
                 freeze: true,
                 freeze_message: __("Syncing selected documents...")

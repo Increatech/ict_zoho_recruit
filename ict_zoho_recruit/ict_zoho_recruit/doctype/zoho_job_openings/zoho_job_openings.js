@@ -1,6 +1,6 @@
 const update_address = async (frm) => {
     frappe.call({
-        method: "ict_zoho_recruit.api.address.get_warehouse_address",
+        method: "ict_zoho_recruit.api.Address.get_warehouse_address",
         args: {
             department_name: frm.doc.department_name
         },
@@ -25,7 +25,7 @@ const update_skills = (frm) => {
     }
 
     frappe.call({
-        method: "ict_zoho_recruit.api.zoho_recruit.get_designation_skills",
+        method: "ict_zoho_recruit.api.ZohoRecruit.get_designation_skills",
         args: {
             designation: frm.doc.title,
             list_format: true
@@ -71,7 +71,7 @@ frappe.ui.form.on("Zoho Job Openings", {
         if (frm.doc.is_complete) {
             frm.add_custom_button(__("Update To Zoho Recruit"), () => {
                 frappe.call({
-                    method: "ict_zoho_recruit.api.zoho_recruit.sync_zoho_recruit",
+                    method: "ict_zoho_recruit.api.ZohoRecruit.sync_zoho_recruit",
                     args: {
                         document_ids: [frm.doc.name],
                         operation: "update"
@@ -113,7 +113,7 @@ frappe.ui.form.on("Zoho Job Openings", {
         } else {
             frm.add_custom_button(__("Create Zoho Recruit"), () => {
                 frappe.call({
-                    method: "ict_zoho_recruit.api.zoho_recruit.sync_zoho_recruit",
+                    method: "ict_zoho_recruit.api.ZohoRecruit.sync_zoho_recruit",
                     args: {
                         document_ids: [frm.doc.name],
                         operation: "create"

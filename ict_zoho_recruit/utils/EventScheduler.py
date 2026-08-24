@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils import today, cint
 from frappe import _
-from ..api.zoho_recruit import auto_job_posting
+from ..api.ZohoRecruit import auto_job_posting
 
 @frappe.whitelist(allow_guest=True)
 def jobPostScheduler():

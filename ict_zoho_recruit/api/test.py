@@ -1,6 +1,6 @@
 import frappe
 from ..utils.ZohoService import ZoHoRecruitService
-from .zoho_recruit import get_designation_skills
+from .ZohoRecruit import get_designation_skills
 
 @frappe.whitelist(allow_guest=True)
 def test(designation):

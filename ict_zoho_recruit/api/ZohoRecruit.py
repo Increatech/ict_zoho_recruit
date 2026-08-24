@@ -3,7 +3,7 @@ import frappe, json
 from frappe.utils import today, cint
 from ..utils.ZohoService import ZoHoRecruitService
 from ..utils.Template import get_job_openings_tmplt
-from .address import get_warehouse_address
+from .Address import get_warehouse_address
 
 @frappe.whitelist(allow_guest=True)
 def auto_job_posting(employee, vacancy=1):

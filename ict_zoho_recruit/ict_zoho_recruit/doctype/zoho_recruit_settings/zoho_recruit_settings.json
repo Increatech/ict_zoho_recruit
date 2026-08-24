@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-17 10:42:47.296649",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "auth_section_section",
+  "column_break_doal",
+  "enable_zoho_recruit_job_posting",
+  "enable_manual_job_posting",
+  "enable_auto_job_posting",
+  "contact_email",
+  "column_break_lnct",
+  "client_id",
+  "client_secret",
+  "app_code",
+  "refresh_token",
+  "access_token"
+ ],
+ "fields": [
+  {
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Applications Client ID ",
+   "mandatory_depends_on": "enable_zoho_recruit_job_posting",
+   "reqd": 1
+  },
+  {
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "client_secret",
+   "fieldtype": "Password",
+   "in_list_view": 1,
+   "label": "Applications Client Secret ",
+   "mandatory_depends_on": "enable_zoho_recruit_job_posting",
+   "reqd": 1
+  },
+  {
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "app_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Applications Code",
+   "mandatory_depends_on": "enable_zoho_recruit_job_posting",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_doal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "auth_section_section",
+   "fieldtype": "Section Break",
+   "label": "Auth Config Section"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_zoho_recruit_job_posting",
+   "fieldtype": "Check",
+   "label": "Enable Zoho Recruit Job Posting"
+  },
+  {
+   "fieldname": "column_break_lnct",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "enable_manual_job_posting",
+   "fieldtype": "Check",
+   "label": "Enable Manual Job Posting"
+  },
+  {
+   "default": "0",
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "enable_auto_job_posting",
+   "fieldtype": "Check",
+   "label": "Enable Auto Job Posting"
+  },
+  {
+   "fieldname": "refresh_token",
+   "fieldtype": "Password",
+   "label": "Refresh Token"
+  },
+  {
+   "fieldname": "access_token",
+   "fieldtype": "Password",
+   "label": "Access Token"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Zoho Job Publish Person Email"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-08-24 11:47:14.831250",
+ "modified_by": "Administrator",
+ "module": "Ict Zoho Recruit",
+ "name": "Zoho Recruit Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

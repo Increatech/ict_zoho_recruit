@@ -1,0 +1,297 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-18 14:48:34.886174",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "job_opening_information_section",
+  "title",
+  "posting_title",
+  "number_of_positions",
+  "assigned_recruiters",
+  "target_date",
+  "job_opening_status",
+  "industry",
+  "salary",
+  "hiring_pipeline",
+  "column_break_crev",
+  "department_name",
+  "job_department",
+  "hiring_manager",
+  "date_opened",
+  "job_type",
+  "work_experience",
+  "skils",
+  "address_information_section",
+  "remote_job",
+  "address",
+  "column_break_ntyr",
+  "city",
+  "state",
+  "country",
+  "postal_code",
+  "description_information_section",
+  "job_description",
+  "requirements",
+  "benefits",
+  "attachment_information_section",
+  "job_summary",
+  "others",
+  "zoho_recruit_reference_section",
+  "is_complete",
+  "is_notified",
+  "column_break_cwlq",
+  "zoho_job_opening_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "job_opening_information_section",
+   "fieldtype": "Section Break",
+   "label": "Job Opening Information"
+  },
+  {
+   "fetch_from": "job_opening_template.template_title",
+   "fieldname": "posting_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Posting Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "number_of_positions",
+   "fieldtype": "Int",
+   "label": "Number of Positions",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Link",
+   "label": "Designation ( Title )",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "assigned_recruiters",
+   "fieldtype": "Link",
+   "label": "Assigned Recruiter(s)",
+   "options": "Company"
+  },
+  {
+   "fieldname": "target_date",
+   "fieldtype": "Date",
+   "label": "Target Date"
+  },
+  {
+   "fieldname": "job_opening_status",
+   "fieldtype": "Select",
+   "label": "Job Opening Status",
+   "options": "In-progress\nWaiting for approval\nOn-Hold\nFilled\nCancelled\nDeclined"
+  },
+  {
+   "fetch_from": "title.custom_industry_type",
+   "fieldname": "industry",
+   "fieldtype": "Link",
+   "label": "Industry Type",
+   "options": "Industry Type"
+  },
+  {
+   "fieldname": "salary",
+   "fieldtype": "Currency",
+   "label": "Salary",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "default": "Standard Pipeline",
+   "fieldname": "hiring_pipeline",
+   "fieldtype": "Select",
+   "label": "Hiring Pipeline",
+   "options": "Standard Pipeline"
+  },
+  {
+   "fieldname": "column_break_crev",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department_name",
+   "fieldtype": "Link",
+   "label": "Department Name",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "job_department",
+   "fieldtype": "Select",
+   "label": "Job Department",
+   "options": "\nIT\nAdmin\nSales\nDesign\nHR"
+  },
+  {
+   "fieldname": "hiring_manager",
+   "fieldtype": "Link",
+   "label": "Hiring Manager",
+   "options": "Company"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date_opened",
+   "fieldtype": "Date",
+   "label": "Date Opened"
+  },
+  {
+   "fetch_from": "job_opening_template.employment_type",
+   "fieldname": "job_type",
+   "fieldtype": "Link",
+   "label": "Job Type",
+   "options": "Employment Type"
+  },
+  {
+   "fieldname": "work_experience",
+   "fieldtype": "Select",
+   "label": "Work Experience",
+   "options": "\nFresher\n0-1 Year\n1-3 Year\n4-5 Year\n5+ Year"
+  },
+  {
+   "fieldname": "description_information_section",
+   "fieldtype": "Section Break",
+   "label": "Description Information"
+  },
+  {
+   "fieldname": "job_description",
+   "fieldtype": "Text Editor",
+   "label": "Job Description"
+  },
+  {
+   "fieldname": "requirements",
+   "fieldtype": "Text Editor",
+   "label": "Requirements"
+  },
+  {
+   "fieldname": "benefits",
+   "fieldtype": "Text Editor",
+   "label": "Benefits"
+  },
+  {
+   "fieldname": "attachment_information_section",
+   "fieldtype": "Section Break",
+   "label": "Attachment Information"
+  },
+  {
+   "fieldname": "job_summary",
+   "fieldtype": "Attach",
+   "label": "Job Summary"
+  },
+  {
+   "fieldname": "others",
+   "fieldtype": "Attach",
+   "label": "Others"
+  },
+  {
+   "fieldname": "address_information_section",
+   "fieldtype": "Section Break",
+   "label": "Address Information"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Link",
+   "label": "Address",
+   "options": "Address",
+   "read_only_depends_on": "eval:doc.remote_job"
+  },
+  {
+   "default": "0",
+   "fieldname": "remote_job",
+   "fieldtype": "Check",
+   "label": "Remote Job"
+  },
+  {
+   "fieldname": "zoho_recruit_reference_section",
+   "fieldtype": "Section Break",
+   "label": "Zoho Recruit Reference"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_complete",
+   "fieldtype": "Check",
+   "label": "Is Complete",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cwlq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "zoho_job_opening_id",
+   "fieldtype": "Data",
+   "label": "Zoho Job Opening ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "skils",
+   "fieldtype": "Table MultiSelect",
+   "label": "Skils",
+   "options": "Designation Skill"
+  },
+  {
+   "fieldname": "column_break_ntyr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "address.city",
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fetch_from": "address.country",
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "label": "Country"
+  },
+  {
+   "fetch_from": "address.pincode",
+   "fieldname": "postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "fetch_from": "address.state",
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State/Province"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_notified",
+   "fieldtype": "Check",
+   "label": "Is Notified",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-24 13:29:14.984715",
+ "modified_by": "Administrator",
+ "module": "Ict Zoho Recruit",
+ "name": "Zoho Job Openings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,12 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Email Template",
+  "modified": "2026-08-24 11:47:08.886163",
+  "name": "New Job Opening",
+  "response": "<div class=\"ql-editor read-mode\"><p>Hi,</p><p><br></p><p>A new job opening has been created.</p><p>Job Opening: {{ doc.name }}</p><p>Please check the job opening and publish it.</p><p>Thank you.</p></div>",
+  "response_html": null,
+  "subject": "New Job Opening Created - {{ doc.name }}",
+  "use_html": 0
+ }
+]

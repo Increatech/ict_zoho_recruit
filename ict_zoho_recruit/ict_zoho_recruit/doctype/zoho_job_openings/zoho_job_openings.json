@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "ZR.-.#####",
  "creation": "2026-08-18 14:48:34.886174",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -270,10 +271,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-24 13:29:14.984715",
+ "modified": "2026-08-24 16:52:37.816820",
  "modified_by": "Administrator",
  "module": "Ict Zoho Recruit",
  "name": "Zoho Job Openings",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

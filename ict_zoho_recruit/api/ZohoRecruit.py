@@ -184,12 +184,17 @@ def get_designation_skills(designation, list_format=False):
         FROM `tabDesignation Skill`
         WHERE parent = %s
         """,
-        designation,
+        (designation,),
         as_list=True
     )
-    
+
     if not list_format:
-        return ", ".join(row[0].lower() for row in skills)
-    
-    return skills
+        return ", ".join(
+            row[0].lower()
+            for row in skills
+            if row[0]
+        )
+
+    return [row[0] for row in skills if row[0]]
+
 

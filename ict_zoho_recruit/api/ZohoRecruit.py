@@ -113,11 +113,13 @@ def sync_zoho_recruit(document_ids, operation="create"):
                 response = service._create_Job_Openings(
                     request_payload=payload
                 )
+                service._upload_attachment(job_post)
             else:
                 response = service._update_Job_Openings(
                     request_payload=payload,
                     id=zoho_id,
                 )
+                service._upload_attachment(job_post)
 
             data = response.get("data") or []
             result = data[0] if data else {}

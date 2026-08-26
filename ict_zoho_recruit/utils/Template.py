@@ -26,6 +26,8 @@ def get_job_openings_tmplt(**args):
     required_skills = args.get("required_skills") or ""
     requirements = args.get("requirements") or ""
     benefits = args.get("benefits") or ""
+    is_attachment_present = bool(args.get("job_summary") or args.get("others"))
+
 
     current_date = today()
 
@@ -71,6 +73,7 @@ def get_job_openings_tmplt(**args):
 
             "Assigned_Recruiter": "578573000000579003",
             "Client_Name": args.get("department_name") or "",
+            "Is_Attachment_Present":is_attachment_present,
 
             "Target_Date": str(target_date),
             "Job_Opening_Status": "In-progress",

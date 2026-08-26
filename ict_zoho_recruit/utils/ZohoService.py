@@ -1,6 +1,6 @@
-import frappe
+import frappe, os
 from .ZohoToken import ZoHoTokenService, BaseRequest
-
+from urllib.parse import quote
 
 class ZoHoRecruitService(BaseRequest):
     API_PATH = '/Job_Openings'
@@ -97,3 +97,65 @@ class ZoHoRecruitService(BaseRequest):
                     "Failed to update job opening in Zoho Recruit. "
                     "Please check the error log for details."
                 )   
+                
+                
+    def _upload_attachment(self, doc):
+            zoho_job_id = doc.zoho_job_opening_id
+
+            if not zoho_job_id:
+                frappe.throw("Zoho Job Opening ID is missing")
+
+            attachment_fields = ["others", "job_summary"]
+            results = []
+            headers = self.get_request_headers.copy()
+
+            for fieldname in attachment_fields:
+                file_url = doc.get(fieldname)
+
+                if not file_url:
+                    continue
+
+                if file_url.startswith("/"):
+                    site_url = frappe.utils.get_url()
+                    attachment_target_url = f"{site_url}{file_url}"
+                else:
+                    attachment_target_url = file_url
+
+                params = {
+                    "attachments_category": "Others",
+                    "attachment_url": attachment_target_url
+                }
+
+                res_data = {}
+                try:
+                    response = self._post(
+                        url_suffix=f"/Job_Openings/{zoho_job_id}/Attachments",
+                        headers=headers,
+                        query_params=params,
+                    )
+
+                    if hasattr(response, "json"):
+                        try:
+                            res_data = response.json()
+                        except Exception:
+                            res_data = {"text": response.text}
+                    else:
+                        res_data = response
+
+                except Exception as e:
+                    error_message = str(e)
+                    if "DUPLICATE_DATA" in error_message or "Attachment link already exists" in error_message:
+                        res_data = {
+                            "status": "success", 
+                            "message": "Attachment link already exists in Zoho"
+                        }
+                    else:
+                        raise e
+
+                results.append({
+                    "field": fieldname,
+                    "file_url": attachment_target_url,
+                    "response": res_data
+                })
+
+            return results

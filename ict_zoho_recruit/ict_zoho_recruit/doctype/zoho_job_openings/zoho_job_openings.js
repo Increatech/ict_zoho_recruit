@@ -45,7 +45,7 @@ const update_skills = (frm) => {
             frm.clear_table("skils");
 
             skills.forEach(row => {
-                const skill = row?.[0];
+                const skill = row;
 
                 if (!skill) {
                     return;

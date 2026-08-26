@@ -10,13 +10,17 @@
   "enable_zoho_recruit_job_posting",
   "enable_manual_job_posting",
   "enable_auto_job_posting",
-  "contact_email",
+  "attachment_remover",
   "column_break_lnct",
   "client_id",
   "client_secret",
   "app_code",
   "refresh_token",
-  "access_token"
+  "access_token",
+  "section_break_qeqr",
+  "contact_email",
+  "column_break_irjs",
+  "default_job_post_company"
  ],
  "fields": [
   {
@@ -93,13 +97,36 @@
    "fieldname": "contact_email",
    "fieldtype": "Data",
    "label": "Job Publish Contact Email"
+  },
+  {
+   "default": "0",
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "attachment_remover",
+   "fieldtype": "Check",
+   "label": "Enable Auto Attachment Remover"
+  },
+  {
+   "fieldname": "section_break_qeqr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_irjs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "enable_zoho_recruit_job_posting",
+   "fieldname": "default_job_post_company",
+   "fieldtype": "Link",
+   "label": "Default Job Post Company",
+   "mandatory_depends_on": "enable_zoho_recruit_job_posting",
+   "options": "Company"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-08-24 16:16:30.253907",
+ "modified": "2026-08-26 16:26:53.803515",
  "modified_by": "Administrator",
  "module": "Ict Zoho Recruit",
  "name": "Zoho Recruit Settings",

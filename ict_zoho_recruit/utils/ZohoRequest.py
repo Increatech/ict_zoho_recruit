@@ -72,3 +72,6 @@ class BaseRequest:
     
     def _put(self, url_suffix: str | None = None, payload: dict | None = None, query_params: dict | None = None, headers: dict | None = None) -> dict | None:
         return self._request("PUT", url_suffix, payload, query_params, headers)
+    
+    def _delete(self, url_suffix: str | None = None, payload: dict | None = None, query_params: dict | None = None, headers: dict | None = None) -> dict | None:
+        return self._request("DELETE", url_suffix=url_suffix, payload=payload, query_params=query_params, headers=headers)

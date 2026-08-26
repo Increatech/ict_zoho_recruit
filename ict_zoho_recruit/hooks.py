@@ -141,14 +141,24 @@ doc_events = {
 	"Zoho Job Openings": {
 		"after_save": "ict_zoho_recruit.doc_events.zoho_job_openings.zoho_job_opening.after_save",
 	}, 
-    # "Employee":{
-    #         "after_save": "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler",
-    # }
+    
+    "File":{
+        "on_trash":"ict_zoho_recruit.doc_events.file.file.delete_attachment"
+    }
 }
+
 
 
 # Scheduled Tasks
 # ---------------
+
+scheduler_events = {
+    "cron": {
+        "0 23 * * *": [
+            "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler"
+        ]
+    }
+}
 
 # scheduler_events = {
 # 	"all": [

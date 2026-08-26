@@ -1,6 +1,7 @@
 import frappe, os
 from .ZohoToken import ZoHoTokenService, BaseRequest
 from urllib.parse import quote
+from frappe.utils import cint
 
 class ZoHoRecruitService(BaseRequest):
     API_PATH = '/Job_Openings'
@@ -45,6 +46,11 @@ class ZoHoRecruitService(BaseRequest):
         
     @property
     def get_request_headers(self):
+        
+        return {
+                    "Content-Type": "application/json",
+                    "Authorization" :f"Zoho-oauthtoken 1000.44b19eb840a788b7a1f51a626289d22f.a1e028766988c3efeaf886dce00b5f25"
+                    }
         return {
             "Content-Type": "application/json",
             "Authorization" :f"Zoho-oauthtoken {self.tokenservice.refresh_access_token()}"
@@ -96,66 +102,120 @@ class ZoHoRecruitService(BaseRequest):
                 frappe.throw(
                     "Failed to update job opening in Zoho Recruit. "
                     "Please check the error log for details."
-                )   
-                
+                )
+    
+    def _get_attachment_files(self, zoho_job):
+        file_names = frappe.get_all(
+            "File",
+            filters=[["File", "attached_to_name", "in", [zoho_job.name]]],
+            pluck="name"
+        )
+        return [frappe.get_doc("File", name) for name in file_names]
                 
     def _upload_attachment(self, doc):
-            zoho_job_id = doc.zoho_job_opening_id
+        zoho_job_id = doc.zoho_job_opening_id
 
-            if not zoho_job_id:
-                frappe.throw("Zoho Job Opening ID is missing")
+        if not zoho_job_id:
+            frappe.throw("Zoho Job Opening ID is missing")
 
-            attachment_fields = ["others", "job_summary"]
-            results = []
-            headers = self.get_request_headers.copy()
+        attachment_fields = self._get_attachment_files(doc)
+        results = []
+        headers = self.get_request_headers.copy()
 
-            for fieldname in attachment_fields:
-                file_url = doc.get(fieldname)
+        for file_doc in attachment_fields:
+            if cint(file_doc.custom_uploaded_to_zoho_recruit):
+                continue
 
-                if not file_url:
-                    continue
+            if file_doc.file_url.startswith("/"):
+                site_url = frappe.utils.get_url()
+                attachment_target_url = f"{site_url}{file_doc.file_url}"
+                
+            else:
+                attachment_target_url = file_doc.file_url
+            
+            params = {
+                "attachments_category": "Others" if file_doc.attached_to_field == "others" else "Job Summary",
+                "attachment_url": attachment_target_url
+            }
 
-                if file_url.startswith("/"):
-                    site_url = frappe.utils.get_url()
-                    attachment_target_url = f"{site_url}{file_url}"
+            res_data = {}
+            upload_success = False
+
+            try:
+                response = self._post(
+                    url_suffix=f"/Job_Openings/{zoho_job_id}/Attachments",
+                    headers=headers,
+                    query_params=params,
+                )
+                
+                if hasattr(response, "json"):
+                    try:
+                        res_data = response.json()
+                    except Exception:
+                        res_data = {"text": response.text}
                 else:
-                    attachment_target_url = file_url
+                    res_data = response
+                
+                upload_success = True
 
-                params = {
-                    "attachments_category": "Others",
-                    "attachment_url": attachment_target_url
-                }
+            except Exception as e:
+                error_message = str(e)
+                if "DUPLICATE_DATA" in error_message or "Attachment link already exists" in error_message:
+                    res_data = {
+                        "status": "success", 
+                        "message": "Attachment link already exists in Zoho"
+                    }
+                    upload_success = True
+                else:
+                    raise e
 
-                res_data = {}
-                try:
-                    response = self._post(
-                        url_suffix=f"/Job_Openings/{zoho_job_id}/Attachments",
-                        headers=headers,
-                        query_params=params,
-                    )
+            if upload_success:
+                
+                data_list = res_data.get("data")
+                if data_list and isinstance(data_list, list) and len(data_list) > 0:
+                    file_doc.custom_uploaded_to_zoho_recruit = 1
+                    file_doc.custom_zoho_attachment_id = data_list[0].get("details", {}).get("id")
+                
+                file_doc.save(ignore_permissions=True)
 
-                    if hasattr(response, "json"):
-                        try:
-                            res_data = response.json()
-                        except Exception:
-                            res_data = {"text": response.text}
-                    else:
-                        res_data = response
+            results.append({
+                "file_name": file_doc.name,
+                "file_url": attachment_target_url,
+                "response": res_data
+            })
 
-                except Exception as e:
-                    error_message = str(e)
-                    if "DUPLICATE_DATA" in error_message or "Attachment link already exists" in error_message:
-                        res_data = {
-                            "status": "success", 
-                            "message": "Attachment link already exists in Zoho"
-                        }
-                    else:
-                        raise e
+        return results
+    
+    def _delete_attachment(self, file_doc):
+        file_doc = frappe.get_cached_doc("File", file_doc)
+        
+        if not cint(file_doc.custom_uploaded_to_zoho_recruit):
+            return
+        
+        zoho_job_id = getattr(file_doc, "attached_to_name", None)
+        zoho_attachment_id = getattr(file_doc, "custom_zoho_attachment_id", None)
+        
+        if not zoho_job_id or not zoho_attachment_id:
+            return {"status": "skipped", "message": "Missing Zoho Job ID or Attachment ID for deletion"}
 
-                results.append({
-                    "field": fieldname,
-                    "file_url": attachment_target_url,
-                    "response": res_data
-                })
+        try:
+            zoho_job_doc = frappe.get_cached_doc("Zoho Job Openings", zoho_job_id)
+            zoho_job_opening_id = getattr(zoho_job_doc, "zoho_job_opening_id", None)
+            
+            response = self._delete(
+                url_suffix=f"/Job_Openings/{zoho_job_opening_id}/Attachments/{zoho_attachment_id}",
+                headers=self.get_request_headers,
+            )
 
-            return results
+            file_doc.custom_uploaded_to_zoho_recruit = 0
+            file_doc.custom_zoho_attachment_id = None
+            file_doc.save(ignore_permissions=True)
+
+            return response
+            
+        except Exception as e:
+            error_message = str(e)
+            if "NOT_FOUND" in error_message or "204" in error_message:
+                return {"status": "success", "message": "Attachment already deleted in Zoho"}
+            
+            raise e

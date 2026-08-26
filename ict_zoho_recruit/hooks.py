@@ -140,7 +140,10 @@ doctype_js = {"Designation" : "public/js/designation.js"}
 doc_events = {
 	"Zoho Job Openings": {
 		"after_save": "ict_zoho_recruit.doc_events.zoho_job_openings.zoho_job_opening.after_save",
-	}
+	}, 
+    "Employee":{
+            "after_save": "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler",
+    }
 }
 
 

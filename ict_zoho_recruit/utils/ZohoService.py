@@ -76,7 +76,7 @@ class ZoHoRecruitService(BaseRequest):
             
     def _update_Job_Openings(self, request_payload, id):
             if not request_payload or not id:
-                frappe.throw(f"Job {"request_payload" if not request_payload else "id"} is required.")
+                frappe.throw(f"Job {'request_payload' if not request_payload else 'id'} is required.")
             
             print(self.get_request_headers)  
             try:

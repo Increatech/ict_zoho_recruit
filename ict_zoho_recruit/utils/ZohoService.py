@@ -46,11 +46,6 @@ class ZoHoRecruitService(BaseRequest):
         
     @property
     def get_request_headers(self):
-        
-        return {
-                    "Content-Type": "application/json",
-                    "Authorization" :f"Zoho-oauthtoken 1000.44b19eb840a788b7a1f51a626289d22f.a1e028766988c3efeaf886dce00b5f25"
-                    }
         return {
             "Content-Type": "application/json",
             "Authorization" :f"Zoho-oauthtoken {self.tokenservice.refresh_access_token()}"

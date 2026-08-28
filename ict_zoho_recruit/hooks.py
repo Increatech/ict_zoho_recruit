@@ -43,7 +43,11 @@ app_include_js = "/assets/ict_zoho_recruit/js/ict_zoho_recruit.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Designation" : "public/js/designation.js"}
+
+doctype_js = {
+              "Role Profile" : "public/js/role_profile.js",
+            #   "Designation" : "public/js/designation.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -141,9 +145,11 @@ doc_events = {
 	"Zoho Job Openings": {
 		"after_save": "ict_zoho_recruit.doc_events.zoho_job_openings.zoho_job_opening.after_save",
 	}, 
-    
     "File":{
         "on_trash":"ict_zoho_recruit.doc_events.file.file.delete_attachment"
+    },
+    "Employee":{
+        "on_update": "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler"
     }
 }
 

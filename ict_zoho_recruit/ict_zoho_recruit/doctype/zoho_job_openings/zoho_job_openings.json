@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "job_opening_information_section",
+  "role_profile",
   "title",
   "posting_title",
   "number_of_positions",
@@ -18,12 +19,12 @@
   "hiring_pipeline",
   "column_break_crev",
   "department_name",
-  "job_department",
+  "job_category",
   "hiring_manager",
   "date_opened",
   "job_type",
   "work_experience",
-  "skils",
+  "skills",
   "address_information_section",
   "remote_job",
   "address",
@@ -121,12 +122,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "job_department",
-   "fieldtype": "Select",
-   "label": "Job Department",
-   "options": "\nIT\nAdmin\nSales\nDesign\nHR"
-  },
-  {
    "fieldname": "hiring_manager",
    "fieldtype": "Link",
    "label": "Hiring Manager",
@@ -192,11 +187,11 @@
    "label": "Address Information"
   },
   {
+   "depends_on": "eval:!doc.remote_job",
    "fieldname": "address",
    "fieldtype": "Link",
    "label": "Address",
-   "options": "Address",
-   "read_only_depends_on": "eval:doc.remote_job"
+   "options": "Address"
   },
   {
    "default": "0",
@@ -227,34 +222,32 @@
    "read_only": 1
   },
   {
-   "fieldname": "skils",
-   "fieldtype": "Table MultiSelect",
-   "label": "Skils",
-   "options": "Designation Skill"
-  },
-  {
    "fieldname": "column_break_ntyr",
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:!doc.remote_job",
    "fetch_from": "address.city",
    "fieldname": "city",
    "fieldtype": "Data",
    "label": "City"
   },
   {
+   "depends_on": "eval:!doc.remote_job",
    "fetch_from": "address.country",
    "fieldname": "country",
    "fieldtype": "Data",
    "label": "Country"
   },
   {
+   "depends_on": "eval:!doc.remote_job",
    "fetch_from": "address.pincode",
    "fieldname": "postal_code",
    "fieldtype": "Data",
    "label": "Postal Code"
   },
   {
+   "depends_on": "eval:!doc.remote_job",
    "fetch_from": "address.state",
    "fieldname": "state",
    "fieldtype": "Data",
@@ -266,12 +259,30 @@
    "fieldtype": "Check",
    "label": "Is Notified",
    "read_only": 1
+  },
+  {
+   "fieldname": "role_profile",
+   "fieldtype": "Link",
+   "label": "Role Profile",
+   "options": "Role Profile"
+  },
+  {
+   "fieldname": "skills",
+   "fieldtype": "Table MultiSelect",
+   "label": "Skills",
+   "options": "Designation Skill"
+  },
+  {
+   "fieldname": "job_category",
+   "fieldtype": "Select",
+   "label": "Job Category",
+   "options": "\nIT\nAdmin\nSales\nDesign\nHR"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-24 16:52:37.816820",
+ "modified": "2026-08-28 15:41:26.938422",
  "modified_by": "Administrator",
  "module": "Ict Zoho Recruit",
  "name": "Zoho Job Openings",

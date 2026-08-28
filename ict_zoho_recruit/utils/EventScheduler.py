@@ -6,8 +6,8 @@ from ict_zoho_recruit.api.ZohoRecruit import auto_job_posting
 @frappe.whitelist(allow_guest=True)
 def jobPostScheduler():
     settings = frappe.get_single("Zoho Recruit Settings")
-    
-    if not cint(settings.enable_zoho_recruit_job_posting) or not cint(settings.enable_auto_job_posting) or not cint(settings.default_job_post_company):
+
+    if not cint(settings.enable_zoho_recruit_job_posting) or not cint(settings.enable_auto_job_posting) or not settings.default_job_post_company:
             frappe.throw("Zoho Recruit integration or Auto Job Posting or default job company is disabled.")
     
     employees = get_employees_left_today(settings)

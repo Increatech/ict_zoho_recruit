@@ -46,10 +46,24 @@ class ZoHoRecruitService(BaseRequest):
         
     @property
     def get_request_headers(self):
-        return {
-            "Content-Type": "application/json",
-            "Authorization" :f"Zoho-oauthtoken {self.tokenservice.refresh_access_token()}"
+        cache_key = f"zoho_request_headers:{self.settings.client_id}"
+
+        headers = frappe.cache().get_value(cache_key)
+
+        if not headers:
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Zoho-oauthtoken {self.tokenservice.refresh_access_token()}",
             }
+
+            frappe.cache().set_value(
+                cache_key,
+                headers,
+                expires_in_sec=300,
+            )
+
+        return headers
+
         
     
     def _create_Job_Openings(self, request_payload):
@@ -64,6 +78,7 @@ class ZoHoRecruitService(BaseRequest):
             )
 
             return response
+        
 
         except Exception:
             frappe.log_error(

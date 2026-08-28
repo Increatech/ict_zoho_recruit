@@ -55,7 +55,7 @@ def get_job_openings_tmplt(**args):
     if benefits:
         job_description += f"""
             <br/>
-            <span id="spanbenefits">
+            <span id="spanben">
                 <h3>Benefits</h3>
                 <div class="ql-editor read-mode">
                     {benefits}
@@ -82,8 +82,7 @@ def get_job_openings_tmplt(**args):
             "Salary": str(salary),
             "Currency": "INR",
 
-            # "Department_Name": "578573000000590015",
-            "Job_Department": args.get("job_department") or "",
+            "Job_Category": args.get("job_category") or "",
 
             "Hiring_Manager": "578573000000579003",
             "Date_Opened": str(

@@ -4,6 +4,7 @@ from frappe.utils import today, cint
 from ..utils.ZohoService import ZoHoRecruitService
 from ..utils.Template import get_job_openings_tmplt
 from .Address import get_warehouse_address
+from ict_zoho_recruit.api.RoleProfile import get_role_profile_details
 
 @frappe.whitelist(allow_guest=True)
 def auto_job_posting(employee, vacancy=1):
@@ -12,33 +13,31 @@ def auto_job_posting(employee, vacancy=1):
 
     employee_doc = frappe.get_doc("Employee", employee)
 
-    designation_description = ""
-    required_skills = []
-
-    if employee_doc.designation:
-        designation_doc = frappe.get_doc(
-            "Designation",
-            employee_doc.designation
+    if not employee_doc.custom_role_profile:
+        frappe.log_error(
+            title="Auto Job Post Failed",
+            message=(
+                f"Employee {employee_doc.name} is not configured with a "
+                "Role Profile, so the auto job post failed."
+            ),
         )
+        return
 
-        designation_description = designation_doc.description or ""
-
-        for skill_row in designation_doc.skills:
-            if skill_row.skill:
-                required_skills.append(skill_row.skill)
-
-    address = get_warehouse_address(employee_doc.department)
+    role_profile_doc = frappe.get_doc("Role Profile", employee_doc.custom_role_profile)
+    role_profile_data = get_role_profile_details(employee_doc.custom_role_profile)
+    
+    address = get_warehouse_address(role_profile_doc.custom_department)
     job_opening = frappe.new_doc("Zoho Job Openings")
 
-    job_opening.posting_title = employee_doc.designation or ""
-    job_opening.title = employee_doc.designation or ""
+    job_opening.posting_title = role_profile_data.get("designation") or employee_doc.designation or ""
+    job_opening.title = role_profile_data.get("designation") or  employee_doc.designation or ""
 
     job_opening.number_of_positions = vacancy
-    job_opening.salary = designation_doc.custom_salary or 0
-    job_opening.work_experience = designation_doc.custom_work_experience or ""
+    job_opening.salary = role_profile_doc.custom_salary or 0
+    job_opening.work_experience = role_profile_doc.custom_work_experience or ""
 
-    job_opening.department_name = employee_doc.department or ""
-    job_opening.industry = designation_doc.custom_industry_type or ""
+    job_opening.department_name = role_profile_doc.custom_department or ""
+    job_opening.industry = role_profile_doc.custom_industry_type or ""
     job_opening.hiring_manager = "Elbrit Lifesciences Private Limited"
     job_opening.assigned_recruiters = "Elbrit Lifesciences Private Limited"
     
@@ -48,15 +47,12 @@ def auto_job_posting(employee, vacancy=1):
     job_opening.country= address.get("country")
     job_opening.postal_code=address.get("pincode")
     
-    job_opening.job_type = (
-        employee_doc.employment_type.replace("-time", " time")
-        if employee_doc.employment_type
-        else ""
-    )
-    
-    job_opening.job_description = designation_description
+    job_opening.job_type = employee_doc.employment_type
+    job_opening.job_description = role_profile_data.get("description") or ""
+    job_opening.requirements = role_profile_data.get("custom_requirements") or ""
+    job_opening.benefits = role_profile_data.get("custom_benefits") or ""
 
-    for skill in required_skills:
+    for skill in role_profile_data.get("skills"):
         job_opening.append("skils", {
             "skill": skill
         })
@@ -133,6 +129,13 @@ def sync_zoho_recruit(document_ids, operation="create"):
                 continue
 
             if operation == "create":
+                frappe.enqueue(
+                        "ict_zoho_recruit.utils.EmailService.send_email",
+                        queue="default",
+                        timeout=300,
+                        doc_id=doc_id,
+                        enqueue_after_commit=True)
+                
                 zoho_id = details.get("id")
 
                 if not zoho_id:

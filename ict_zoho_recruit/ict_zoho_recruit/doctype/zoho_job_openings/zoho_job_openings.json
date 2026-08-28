@@ -90,7 +90,6 @@
    "options": "In-progress\nWaiting for approval\nOn-Hold\nFilled\nCancelled\nDeclined"
   },
   {
-   "fetch_from": "title.custom_industry_type",
    "fieldname": "industry",
    "fieldtype": "Link",
    "label": "Industry Type",

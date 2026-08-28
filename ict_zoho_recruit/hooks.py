@@ -141,10 +141,7 @@ doctype_js = {
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-	"Zoho Job Openings": {
-		"after_save": "ict_zoho_recruit.doc_events.zoho_job_openings.zoho_job_opening.after_save",
-	}, 
+doc_events = { 
     "File":{
         "on_trash":"ict_zoho_recruit.doc_events.file.file.delete_attachment"
     }

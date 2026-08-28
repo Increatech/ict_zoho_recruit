@@ -147,9 +147,6 @@ doc_events = {
 	}, 
     "File":{
         "on_trash":"ict_zoho_recruit.doc_events.file.file.delete_attachment"
-    },
-    "Employee":{
-        "on_update": "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler"
     }
 }
 
@@ -160,7 +157,7 @@ doc_events = {
 
 scheduler_events = {
     "cron": {
-        "0 23 * * *": [
+        "0 2 * * *": [
             "ict_zoho_recruit.utils.EventScheduler.jobPostScheduler"
         ]
     }

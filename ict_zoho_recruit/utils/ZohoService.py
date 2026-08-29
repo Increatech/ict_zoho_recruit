@@ -94,7 +94,7 @@ class ZoHoRecruitService(BaseRequest):
             if not request_payload or not id:
                 frappe.throw(f"Job {'request_payload' if not request_payload else 'id'} is required.")
             
-            print(self.get_request_headers)  
+ 
             try:
                 response = self._put(
                     url_suffix=f"{self.API_PATH}/{id}",

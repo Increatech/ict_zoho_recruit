@@ -191,16 +191,13 @@ def get_designation_skills(designation, list_format=False):
         WHERE parent = %s
         """,
         (designation,),
+        pluck="skill",
         as_list=True
     )
 
     if not list_format:
-        return ", ".join(
-            row[0].lower()
-            for row in skills
-            if row[0]
-        )
+        return ", ".join(row.lower()for row in skills)
 
-    return [row[0] for row in skills if row[0]]
+    return skills
 
 

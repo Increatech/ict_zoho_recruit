@@ -84,16 +84,16 @@ const update_skills = async (frm) => {
         );
 
         if (response) {
-            frm.clear_table("skills");
+            // frm.clear_table("skills");
             
-            if (Array.isArray(response.skills)) {
-                response.skills.forEach(skillName => {
-                    if (skillName) {
-                        frm.add_child("skills", { skill: skillName });
-                    }
-                });
-            }
-            frm.refresh_field("skills");
+            // if (Array.isArray(response.skills)) {
+            //     response.skills.forEach(skillName => {
+            //         if (skillName) {
+            //             frm.add_child("skills", { skill: skillName });
+            //         }
+            //     });
+            // }
+            // frm.refresh_field("skills");
 
             await frm.set_value({
                 "job_description": response.description || "",

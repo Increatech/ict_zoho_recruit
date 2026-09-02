@@ -29,10 +29,12 @@ def auto_job_posting(employee, vacancy=1):
     address = get_warehouse_address(role_profile_doc.custom_department)
     job_opening = frappe.new_doc("Zoho Job Openings")
 
-    job_opening.posting_title = role_profile_data.get("designation") or employee_doc.designation or ""
+    job_opening.posting_title = role_profile_doc.posting_title or employee_doc.designation or ""
     job_opening.title = role_profile_data.get("designation") or  employee_doc.designation or ""
+    job_opening.job_category = role_profile_doc.job_category or ""
 
     job_opening.number_of_positions = vacancy
+    job_opening.target_date = job_opening.get_target_date 
     job_opening.salary = role_profile_doc.custom_salary or 0
     job_opening.work_experience = role_profile_doc.custom_work_experience or ""
 
@@ -51,9 +53,13 @@ def auto_job_posting(employee, vacancy=1):
     job_opening.job_description = role_profile_data.get("description") or ""
     job_opening.requirements = role_profile_data.get("custom_requirements") or ""
     job_opening.benefits = role_profile_data.get("custom_benefits") or ""
+    job_opening.role_profile = role_profile_doc.name or ""
+    
+    skillset = get_designation_skills(role_profile_doc.name, list_format=True)
 
-    for skill in role_profile_data.get("skills"):
-        job_opening.append("skils", {
+    print(skillset)
+    for skill in skillset:
+        job_opening.append("skills", {
             "skill": skill
         })
         
@@ -62,7 +68,7 @@ def auto_job_posting(employee, vacancy=1):
 
     frappe.db.commit()
     
-    return sync_zoho_recruit(document_ids=[job_opening.name], operation="create")
+    # return sync_zoho_recruit(document_ids=[job_opening.name], operation="create")
 
 
 

@@ -101,6 +101,7 @@ const update_skills = async (frm) => {
                 "benefits": response.custom_benefits || "",
                 "title": response.designation || "",
             });
+            
         }
     } catch (error) {
         console.error("Failed to fetch role profile details:", error);

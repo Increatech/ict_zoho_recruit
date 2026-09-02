@@ -14,7 +14,7 @@ def execute():
             dict(
                 fieldname="posting_title",
                 fieldtype="Data",
-                label="Posting Title",
+                label="Job Posting Title",
                 insert_after="designation_details",
             ),
             
@@ -31,11 +31,11 @@ def execute():
                 options="\n".join(
                                     [
                                         
-                                        "IT"
-                                        "Admin"
-                                        "Sales"
-                                        "Design"
-                                        "HR"
+                                        "IT",
+                                        "Admin",
+                                        "Sales",
+                                        "Design",
+                                        "HR",
                                     ]
                                 ),
                 label="Job Category",

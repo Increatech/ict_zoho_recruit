@@ -6,4 +6,5 @@
 # Patches added in this section will be executed after doctypes are migrated
 
 ict_zoho_recruit.patches.v1.role_profile
+ict_zoho_recruit.patches.v2.role_profile
 ict_zoho_recruit.patches.v1.file

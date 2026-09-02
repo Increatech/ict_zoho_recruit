@@ -22,6 +22,7 @@
   "contact_email",
   "column_break_irjs",
   "default_job_post_company",
+  "default_target_date_range",
   "section_break_owhz",
   "default_job_post_benefits"
  ],
@@ -141,13 +142,18 @@
    "fieldname": "enable_notify_email",
    "fieldtype": "Check",
    "label": "Enable Notify Email"
+  },
+  {
+   "fieldname": "default_target_date_range",
+   "fieldtype": "Data",
+   "label": "Default Target Date Range"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-08-28 15:51:05.333486",
+ "modified": "2026-09-01 16:57:26.292140",
  "modified_by": "Administrator",
  "module": "Ict Zoho Recruit",
  "name": "Zoho Recruit Settings",
